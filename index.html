@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 La mia Wishlist Neon</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #030712; color: #f8fafc; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 480px; width: 100%; background: #0b0f19; padding: 25px; border-radius: 20px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); border: 1px solid #a855f7; margin-top: 20px; }
+        h1 { text-align: center; background: linear-gradient(135deg, #a855f7, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5)); }
+        .subtitle { text-align: center; color: #94a3b8; font-size: 13px; margin-bottom: 30px; letter-spacing: 0.5px; }
+        
+        /* Stile pulsanti categorie (Home) */
+        .cat-btn { background: #030712; padding: 18px; border-radius: 15px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #f1f5f9; font-weight: bold; font-size: 17px; border: 1px solid #3b82f6; box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1), 0 0 10px rgba(59, 130, 246, 0.1); cursor: pointer; transition: all 0.25s ease; }
+        .cat-btn:hover { transform: scale(1.03); border-color: #a855f7; box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.2), 0 0 20px rgba(168, 85, 247, 0.3); color: #fff; }
+        .icon { color: #3b82f6; transition: all 0.25s ease; }
+        .cat-btn:hover .icon { color: #a855f7; transform: translateX(4px); }
+        
+        /* Schedine dei regali */
+        .wish-card { background: #030712; padding: 18px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #1e293b; border-left: 5px solid #3b82f6; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .info { display: flex; flex-direction: column; gap: 4px; }
+        .title { font-weight: bold; font-size: 16px; color: #f1f5f9; letter-spacing: 0.5px; }
+        .desc { font-size: 12px; color: #64748b; }
+        
+        /* Bottoni link */
+        .btn { background: linear-gradient(135deg, #3b82f6, #a855f7); color: white; padding: 10px 16px; text-decoration: none; border-radius: 8px; font-size: 13px; font-weight: bold; text-align: center; box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); transition: all 0.2s; }
+        .btn:hover { filter: brightness(1.2); box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+        
+        .back-btn { display: block; text-align: center; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 14px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .back-btn:hover { color: #a855f7; text-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
+        
+        /* Classi per mostrare/nascondere le sezioni */
+        .page { display: none; }
+        .page.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="home" class="page active">
+            <h1>My Wishlist 🎂</h1>
+            <p class="subtitle">Seleziona una categoria per esplorare i regali</p>
+            
+            <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('chitarra')"><span>🎸 Chitarra</span><span class="icon">➜</span></div>
+            <div class="cat-btn" style="border-color: #a855f7;" onclick="showPage('ape')"><span>🛺 Ape</span><span class="icon" style="color:#a855f7;">➜</span></div>
+            <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('costosi')"><span>💎 Roba Costosa</span><span class="icon" style="color:#6366f1;">➜</span></div>
+            <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('musica')"><span>🎧 Musica / CD</span><span class="icon">➜</span></div>
+            <div class="cat-btn" style="border-color: #a855f7;" onclick="showPage('vinili')"><span>💿 Vinili</span><span class="icon" style="color:#a855f7;">➜</span></div>
+            <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('altro')"><span>📦 Altro</span><span class="icon" style="color:#6366f1;">➜</span></div>
+        </div>
+
+        <div id="chitarra" class="page">
+            <h1>🎸 Chitarra</h1>
+            <div class="wish-card" style="border-left-color: #3b82f6;">
+                <div class="info"><span class="title">Muta di Corde Ernie Ball</span><span class="desc">Regular Slinky 10-46</span></div>
+                <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+        <div id="ape" class="page">
+            <h1>🛺 Ape</h1>
+            <div class="wish-card" style="border-left-color: #a855f7;">
+                <div class="info"><span class="title">Plastiche Fari Posteriori</span><span class="desc">Ricambio Piaggio Ape 50</span></div>
+                <a href="https://www.ebay.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+        <div id="costosi" class="page">
+            <h1>💎 Roba Costosa</h1>
+            <div class="wish-card" style="border-left-color: #6366f1;">
+                <div class="info"><span class="title">Amplificatore Valvolare</span><span class="desc">Idea regalo di gruppo</span></div>
+                <a href="https://www.strumentimusicali.net" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+        <div id="musica" class="page">
+            <h1>🎧 Musica / CD</h1>
+            <div class="wish-card" style="border-left-color: #3b82f6;">
+                <div class="info"><span class="title">CD Dookie (Green Day)</span><span class="desc">Edizione Standard CD audio</span></div>
+                <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+        <div id="vinili" class="page">
+            <h1>💿 Vinili</h1>
+            <div class="wish-card" style="border-left-color: #a855f7;">
+                <div class="info"><span class="title">Vinile Bleach (Nirvana)</span><span class="desc">LP 12" Remastered</span></div>
+                <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+        <div id="altro" class="page">
+            <h1>📦 Altro</h1>
+            <div class="wish-card" style="border-left-color: #6366f1;">
+                <div class="info"><span class="title">Felpa Nera con Cappuccio</span><span class="desc">Taglia L / Oversize</span></div>
+                <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Nasconde tutte le pagine
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Mostra la pagina selezionata
+            document.getElementById(pageId).classList.add('active');
+            // Torna in cima alla pagina automaticamente
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
