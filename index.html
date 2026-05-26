@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎁 La mia Wishlist Neon</title>
+    <title>La mia Wishlist</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #030712; color: #f8fafc; margin: 0; padding: 20px; display: flex; justify-content: center; }
         .container { max-width: 480px; width: 100%; background: #0b0f19; padding: 25px; border-radius: 20px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); border: 1px solid #a855f7; margin-top: 20px; }
@@ -39,7 +39,7 @@
     <div class="container">
         
         <div id="home" class="page active">
-            <h1>My Wishlist 🎂</h1>
+            <h1>My Wishlist</h1>
             <p class="subtitle">Seleziona una categoria per esplorare i regali</p>
             
             <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('chitarra')"><span>🎸 Chitarra</span><span class="icon">➜</span></div>
@@ -47,7 +47,8 @@
             <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('costosi')"><span>💎 Roba Costosa</span><span class="icon" style="color:#6366f1;">➜</span></div>
             <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('musica')"><span>🎧 Musica / CD</span><span class="icon">➜</span></div>
             <div class="cat-btn" style="border-color: #a855f7;" onclick="showPage('vinili')"><span>💿 Vinili</span><span class="icon" style="color:#a855f7;">➜</span></div>
-            <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('altro')"><span>📦 Altro</span><span class="icon" style="color:#6366f1;">➜</span></div>
+            <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('pesca')"><span>🦈 Pesca</span><span class="icon" style="color:#6366f1;">➜</span></div>
+            <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('altro')"><span>🤔 Altro</span><span class="icon" style="color:#6366f1;">➜</span></div>
         </div>
 
         <div id="chitarra" class="page">
@@ -95,8 +96,17 @@
             <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
         </div>
 
+        <div id="pesca" class="page">
+            <h1>🦈 Pesca</h1>
+            <div class="wish-card" style="border-left-color: #6366f1;">
+                <div class="info"><span class="title">Felpa Nera con Cappuccio</span><span class="desc">Taglia L / Oversize</span></div>
+                <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
+            </div>
+            <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
+        </div>
+
         <div id="altro" class="page">
-            <h1>📦 Altro</h1>
+            <h1>🤔 Altro</h1></h1>
             <div class="wish-card" style="border-left-color: #6366f1;">
                 <div class="info"><span class="title">Felpa Nera con Cappuccio</span><span class="desc">Taglia L / Oversize</span></div>
                 <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
