@@ -1,7 +1,12 @@
-#!/usr/bin/env python3
 import os
 import re
+import sys
 import subprocess
+
+# Forza l'output UTF-8 per le emoji e i caratteri speciali
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdin.reconfigure(encoding='utf-8')
 
 HTML_FILE = "index.html"
 
@@ -70,7 +75,9 @@ def remove_item():
         return
 
     page_content = match.group(1)
-    cards = list(re.finditer(r'(<div class="wish-card"[^>]*>.*?</div>\s*</div>)', page_content, re.DOTALL))
+    
+    # Regex corretta per catturare l'intera wish-card senza bloccarsi sui div interni
+    cards = list(re.finditer(r'(<div class="wish-card"[^>]*>.*?</a\s*>\s*</div>)', page_content, re.DOTALL))
 
     if not cards:
         print(f"⚠️ Nessun oggetto trovato nella categoria '{category}'.")
