@@ -29,7 +29,7 @@ def git_commit_push(message):
 
 def add_item():
     print("\n--- AGGIUNGI OGGETTO ---")
-    category = input("Categoria (chitarra, ape, costosi, musica, vinili, pesca, altro): ").strip().lower()
+    category = input("Categoria (chitarra, ape, costosi, musica, vinili, pesca, progetti, altro): ").strip().lower()
     title = input("Nome oggetto: ").strip()
     desc = input("Descrizione: ").strip()
     link = input("Link (URL): ").strip()
@@ -60,7 +60,7 @@ def add_item():
 
 def remove_item():
     print("\n--- RIMUOVI OGGETTO ---")
-    category = input("Categoria da cui rimuovere (chitarra, ape, costosi, musica, vinili, pesca, altro): ").strip().lower()
+    category = input("Categoria da cui rimuovere (chitarra, ape, costosi, musica, vinili, pesca, progetti, altro): ").strip().lower()
     
     html = load_html()
     marker = f"<!-- ADD: {category} -->"
