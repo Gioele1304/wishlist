@@ -69,7 +69,7 @@
         <div id="app-container" class="page">
             <div class="user-badge">Utente: <span id="current-user-display"></span> | <a href="#" onclick="logout()" style="color: #ef4444; text-decoration: none;">Esci</a></div>
             
-            <!-- Pulsante Pannello Admin (Visibile solo se loggato come 'admin') -->
+            <!-- Pulsante Pannello Admin -->
             <div id="admin-nav-btn" style="display: none; margin-bottom: 15px;">
                 <button onclick="showPage('admin-panel')" class="action-btn primary" style="width: 100%;">⚙️ Apri Pannello Admin</button>
             </div>
@@ -98,11 +98,10 @@
                 <div class="back-btn" onclick="showPage('home')">⬅ Torna alla Home</div>
             </div>
 
-            <!-- CATEGORIA CHITARRA (Con sezioni di coda integrate per ogni card) -->
+            <!-- CATEGORIA CHITARRA -->
             <div id="chitarra" class="page">
                 <h1>🎸 Chitarra</h1>
                 
-                <!-- Esempio Card con attributo univoco data-gift-id e box coda -->
                 <div class="wish-card" data-gift-id="chitarra_1" style="border-left-color: #3b82f6;">
                     <div class="card-top">
                         <div class="info"><span class="title">Muta di Corde Ernie Ball</span><span class="desc">Super Slinky 9-42</span></div>
@@ -136,7 +135,7 @@
                 <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
             </div>
 
-            <!-- Le altre categorie (garage, vinili, ecc.) possono adottare la stessa struttura con data-gift-id univoci -->
+            <!-- CATEGORIA GARAGE / APE -->
             <div id="ape" class="page">
                 <h1>🚘 Garage</h1>
                 <div class="wish-card" data-gift-id="ape_1" style="border-left-color: #a855f7;">
@@ -156,17 +155,22 @@
                 <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
             </div>
 
-            <!-- Altre sezioni rimangono accessibili -->
+            <div id="costosi" class="page"><h1>👥 Regali di Gruppo</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
+            <div id="musica" class="page"><h1>🎧 Musica / CD</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
+            <div id="vinili" class="page"><h1>💿 Vinili</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
+            <div id="pesca" class="page"><h1>🦈 Pesca</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
+            <div id="progetti" class="page"><h1>💻 Progettini</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
+            <div id="altro" class="page"><h1>🤔 Altro</h1><div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAZIONE SUPABASE (Sostituisci con le tue chiavi del tuo progetto cloud)
-        const SUPABASE_URL = 'INSERISCI_QUI_IL_TUO_SUPABASE_URL';
-        const SUPABASE_ANON_KEY = 'INSERISCI_QUI_LA_TUA_SUPABASE_ANON_KEY';
+        // CONFIGURAZIONE SUPABASE
+        const SUPABASE_URL = 'https://zvohvfxmdqfsfnevqips.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_secret_xqfrhYR7Dlso04PjyD40UQ_b35vIeJV';
         
         let supabaseClient = null;
-        if (SUPABASE_URL !== 'INSERISCI_QUI_IL_TUO_SUPABASE_URL') {
+        if (SUPABASE_ANON_KEY !== 'INSERISCI_QUI_LA_TUA_SUPABASE_ANON_KEY') {
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
 
@@ -186,7 +190,6 @@
                 return;
             }
             currentUser = input;
-            // Se l'utente scrive "admin" (case-insensitive), acquisisce i privilegi admin
             userRole = (currentUser.toLowerCase() === 'admin') ? 'admin' : 'user';
 
             localStorage.setItem('wishlist_user', currentUser);
@@ -232,38 +235,169 @@
             }
         }
 
-        // Funzioni pronte per collegarsi a Supabase
         async function loadQueues() {
             if (!supabaseClient) return;
-            // Esempio: query per leggere la tabella 'queues' e aggiornare i bottoni e le posizioni in tempo reale
+
+            const { data, error } = await supabaseClient
+                .from('queues')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error('Errore nel caricamento delle code:', error);
+                return;
+            }
+
+            const queuesByGift = {};
+            data.forEach(row => {
+                if (!queuesByGift[row.gift_id]) {
+                    queuesByGift[row.gift_id] = [];
+                }
+                queuesByGift[row.gift_id].push(row);
+            });
+
+            document.querySelectorAll('.wish-card').forEach(card => {
+                const giftId = card.getAttribute('data-gift-id');
+                if (!giftId) return;
+
+                const queueList = queuesByGift[giftId] || [];
+                const infoEl = document.getElementById(`q-info-${giftId}`);
+                const btnJoin = document.getElementById(`btn-join-${giftId}`);
+                const btnLeave = document.getElementById(`btn-leave-${giftId}`);
+                const btnBuy = document.getElementById(`btn-buy-${giftId}`);
+
+                if (!infoEl) return;
+
+                const userIndex = queueList.findIndex(q => q.username === currentUser);
+                const totalInQueue = queueList.length;
+
+                if (totalInQueue === 0) {
+                    infoEl.innerText = "Stato coda: Nessun utente in coda";
+                    if (btnJoin) btnJoin.style.display = 'inline-block';
+                    if (btnLeave) btnLeave.style.display = 'none';
+                    if (btnBuy) btnBuy.style.display = 'none';
+                } else {
+                    const firstUser = queueList[0].username;
+                    if (userIndex !== -1) {
+                        const position = userIndex + 1;
+                        infoEl.innerText = `In coda: ${totalInQueue} persone. Tu sei al ${position}° posto! (Primo: ${firstUser})`;
+                        if (btnJoin) btnJoin.style.display = 'none';
+                        if (btnLeave) btnLeave.style.display = 'inline-block';
+                        
+                        if (position === 1) {
+                            if (btnBuy) btnBuy.style.display = 'inline-block';
+                        } else {
+                            if (btnBuy) btnBuy.style.display = 'none';
+                        }
+                    } else {
+                        infoEl.innerText = `In coda: ${totalInQueue} persone. Primo in coda: ${firstUser}`;
+                        if (btnJoin) btnJoin.style.display = 'inline-block';
+                        if (btnLeave) btnLeave.style.display = 'none';
+                        if (btnBuy) btnBuy.style.display = 'none';
+                    }
+                }
+            });
         }
 
         async function joinQueue(giftId) {
             if (!supabaseClient) {
-                alert('Configura prima le credenziali di Supabase nello script!');
+                alert('Configura prima la chiave anon di Supabase nello script!');
                 return;
             }
-            // Logica per aggiungere currentUser alla coda del giftId
+
+            const { error } = await supabaseClient
+                .from('queues')
+                .insert([{ gift_id: giftId, username: currentUser }]);
+
+            if (error) {
+                alert('Errore nell\'aggiunta alla coda: ' + error.message);
+            } else {
+                loadQueues();
+            }
         }
 
         async function leaveQueue(giftId) {
             if (!supabaseClient) return;
-            // Logica per rimuovere currentUser dalla coda del giftId
+
+            const { error } = await supabaseClient
+                .from('queues')
+                .delete()
+                .eq('gift_id', giftId)
+                .eq('username', currentUser);
+
+            if (error) {
+                alert('Errore nell\'uscita dalla coda: ' + error.message);
+            } else {
+                loadQueues();
+            }
         }
 
         async function confirmPurchase(giftId) {
             if (!supabaseClient) return;
-            // Logica per confermare l'acquisto (consentito solo se l'utente è 1° in coda) e rimuovere la card
+            
+            if (!confirm("Sei sicuro di voler confermare l'acquisto? L'oggetto verrà rimosso dalla wishlist.")) return;
+
+            const { error: queueError } = await supabaseClient
+                .from('queues')
+                .delete()
+                .eq('gift_id', giftId);
+
+            if (queueError) {
+                alert('Errore durante la pulizia della coda.');
+                return;
+            }
+
+            const card = document.querySelector(`[data-gift-id="${giftId}"]`);
+            if (card) {
+                card.style.transition = "all 0.5s ease";
+                card.style.opacity = "0";
+                setTimeout(() => card.remove(), 500);
+            }
+
+            alert('Acquisto confermato! L\'oggetto è stato rimosso.');
         }
 
         async function loadAdminData() {
             if (!supabaseClient || userRole !== 'admin') return;
-            // Logica admin per visualizzare tutte le code e chi sta prenotando cosa
+
+            const adminContent = document.getElementById('admin-content');
+            adminContent.innerHTML = "Caricamento dati globali...";
+
+            const { data, error } = await supabaseClient
+                .from('queues')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                adminContent.innerHTML = "Errore nel caricamento dei dati admin.";
+                return;
+            }
+
+            if (data.length === 0) {
+                adminContent.innerHTML = "<p>Nessun regalo attualmente prenotato o in coda.</p>";
+                return;
+            }
+
+            let html = '<ul style="padding-left: 20px; line-height: 1.6;">';
+            data.forEach(row => {
+                html += `<li>Regalo ID: <b>${row.gift_id}</b> ➜ Prenotato da: <span style="color: #a855f7; font-weight: bold;">${row.username}</span></li>`;
+            });
+            html += '</ul>';
+            adminContent.innerHTML = html;
         }
 
         function setupRealtimeSubscription() {
             if (!supabaseClient) return;
-            // Sottoscrizione WebSocket real-time di Supabase per aggiornare la pagina all'istante
+
+            supabaseClient
+                .channel('public:queues')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'queues' }, payload => {
+                    loadQueues();
+                    if (userRole === 'admin') {
+                        loadAdminData();
+                    }
+                })
+                .subscribe();
         }
     </script>
 </body>
