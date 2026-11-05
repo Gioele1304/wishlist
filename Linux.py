@@ -2,9 +2,10 @@
 import sys
 import requests
 
-# Credenziali di Supabase
-SUPABASE_URL = "https://TUO_PROGETTO.supabase.co"
-SUPABASE_KEY = "TUA_ANON_KEY"
+// CONFIGURAZIONE SUPABASE
+const SUPABASE_URL = 'https://zvohvfxmdqfsfnevqips.supabase.co';
+// Incolla qui sotto la tua anon key presa da Supabase (Project Settings > API)
+const SUPABASE_KEY = 'sb_publishable_zjFI466Teft8rdtRNDNqOg_yMKX0UTn';
 
 HEADERS = {
     "apikey": SUPABASE_KEY,
