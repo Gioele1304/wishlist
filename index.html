@@ -137,7 +137,16 @@
             
             const username = input;
 
-            // 1. Controlla se l'utente esiste già nella tabella 'users' di Supabase
+            // 1. Controlla quanti utenti ci sono in totale nella tabella 'users'
+            const { count, error: countError } = await supabaseClient
+                .from('users')
+                .select('*', { count: 'exact', head: true });
+
+            if (countError) {
+                console.error('Errore conteggio utenti:', countError);
+            }
+
+            // 2. Cerca se l'utente esiste già
             const { data: existingUsers, error } = await supabaseClient
                 .from('users')
                 .select('*')
@@ -145,38 +154,39 @@
                 .limit(1);
 
             if (error) {
-                console.error('Errore durante la verifica dell\'utente:', error);
                 alert('Errore di connessione con il database.');
                 return;
             }
 
-            // 2. Se l'utente non esiste, chiedi conferma per crearlo
-            if (!existingUsers || existingUsers.length === 0) {
-                const creaNuovo = confirm(`L'utente "${username}" non esiste nel database. Vuoi creare un nuovo utente?`);
-                if (!creaNuovo) {
-                    return; // Annulla il login
-                }
+            let assignedRole = 'user';
 
-                // Inserisce il nuovo utente nella tabella 'users'
+            // 3. Se la tabella è completamente vuota, il primo utente diventa ADMIN d'ufficio
+            if (count === 0) {
+                assignedRole = 'admin';
+            } else if (!existingUsers || existingUsers.length === 0) {
+                // Se la tabella non è vuota ma l'utente non esiste, chiedi conferma
+                const creaNuovo = confirm(`L'utente "${username}" non esiste nel database. Vuoi creare un nuovo utente?`);
+                if (!creaNuovo) return;
+
+                // Se il nome inserito è "admin", lo mettiamo admin, altrimenti user normale
+                assignedRole = (username.toLowerCase() === 'admin') ? 'admin' : 'user';
+
+                // Inserisce il nuovo utente su Supabase
                 const { error: insertError } = await supabaseClient
                     .from('users')
-                    .insert([{ username: username, role: (username.toLowerCase() === 'admin' ? 'admin' : 'user') }]);
+                    .insert([{ username: username, role: assignedRole }]);
 
                 if (insertError) {
                     alert('Errore nella creazione del nuovo utente: ' + insertError.message);
                     return;
                 }
+            } else {
+                // L'utente esiste già, prendiamo il suo ruolo reale dal DB
+                assignedRole = existingUsers[0].role || 'user';
             }
 
-            // 3. Recupera il ruolo aggiornato dal database
-            const { data: userData } = await supabaseClient
-                .from('users')
-                .select('role')
-                .eq('username', username)
-                .single();
-
             currentUser = username;
-            userRole = userData ? userData.role : ((username.toLowerCase() === 'admin') ? 'admin' : 'user');
+            userRole = assignedRole;
 
             localStorage.setItem('wishlist_user', currentUser);
             localStorage.setItem('wishlist_role', userRole);
