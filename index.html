@@ -191,7 +191,7 @@
             initApp();
         }
 
-        // FUNZIONE DI LOGOUT COMPLETA E CORRETTA
+        // FUNZIONE DI LOGOUT SICURA E COMPLETA
         function logout() {
             localStorage.removeItem('wishlist_user');
             localStorage.removeItem('wishlist_role');
@@ -199,7 +199,13 @@
             currentUser = null;
             userRole = 'user';
             
-            document.getElementById('admin-nav-btn').style.display = 'none';
+            const adminBtn = document.getElementById('admin-nav-btn');
+            if (adminBtn) adminBtn.style.display = 'none';
+
+            // Rimuovi eventuali hash dall'URL
+            if (window.location.hash) {
+                history.pushState("", document.title, window.location.pathname);
+            }
 
             // Chiudi app-container e mostra il form di login
             document.getElementById('app-container').classList.remove('active');
@@ -209,6 +215,9 @@
             document.getElementById('home').classList.add('active');
 
             document.getElementById('login-page').classList.add('active');
+            
+            const userInput = document.getElementById('username-input');
+            if (userInput) userInput.value = '';
         }
 
         async function initApp() {
@@ -308,6 +317,13 @@
         }
 
         function showPage(pageId) {
+            // Controllo di sicurezza per impedire l'accesso admin non autorizzato
+            if (pageId === 'admin-panel' && userRole !== 'admin') {
+                alert("Accesso negato: non sei un amministratore.");
+                showPage('home');
+                return;
+            }
+
             const pages = document.querySelectorAll('#app-container .page');
             pages.forEach(page => page.classList.remove('active'));
             
