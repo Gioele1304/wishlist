@@ -108,7 +108,7 @@
         let currentUser = localStorage.getItem('wishlist_user') || null;
         let userRole = localStorage.getItem('wishlist_role') || 'user';
 
-        // Mappa delle icone per le categorie note (con fallback a 🎁)
+        // Mappa delle icone per le categorie note
         const categoryIcons = {
             'chitarra': '🎸',
             'ape': '🚘',
@@ -127,7 +127,7 @@
             }
         });
 
-// Funzione di Login aggiornata con controllo sulla tabella "users"
+        // FUNZIONE DI LOGIN CON GESTIONE TABELLA USERS
         async function handleLogin() {
             const input = document.getElementById('username-input').value.trim();
             if (!input) {
@@ -137,14 +137,10 @@
             
             const username = input;
 
-            // 1. Controlla quanti utenti ci sono in totale nella tabella 'users'
+            // 1. Controlla quanti utenti ci sono in totale
             const { count, error: countError } = await supabaseClient
                 .from('users')
                 .select('*', { count: 'exact', head: true });
-
-            if (countError) {
-                console.error('Errore conteggio utenti:', countError);
-            }
 
             // 2. Cerca se l'utente esiste già
             const { data: existingUsers, error } = await supabaseClient
@@ -154,34 +150,34 @@
                 .limit(1);
 
             if (error) {
+                console.error('Errore DB users:', error);
                 alert('Errore di connessione con il database.');
                 return;
             }
 
             let assignedRole = 'user';
 
-            // 3. Se la tabella è completamente vuota, il primo utente diventa ADMIN d'ufficio
+            // 3. Se la tabella è vuota, il primo diventa ADMIN d'ufficio
             if (count === 0) {
                 assignedRole = 'admin';
+                await supabaseClient.from('users').insert([{ username: username, role: assignedRole }]);
             } else if (!existingUsers || existingUsers.length === 0) {
-                // Se la tabella non è vuota ma l'utente non esiste, chiedi conferma
+                // Utente non trovato: chiedi conferma prima di crearlo
                 const creaNuovo = confirm(`L'utente "${username}" non esiste nel database. Vuoi creare un nuovo utente?`);
                 if (!creaNuovo) return;
 
-                // Se il nome inserito è "admin", lo mettiamo admin, altrimenti user normale
                 assignedRole = (username.toLowerCase() === 'admin') ? 'admin' : 'user';
 
-                // Inserisce il nuovo utente su Supabase
                 const { error: insertError } = await supabaseClient
                     .from('users')
                     .insert([{ username: username, role: assignedRole }]);
 
                 if (insertError) {
-                    alert('Errore nella creazione del nuovo utente: ' + insertError.message);
+                    alert('Errore nella creazione utente: ' + insertError.message);
                     return;
                 }
             } else {
-                // L'utente esiste già, prendiamo il suo ruolo reale dal DB
+                // Utente esistente
                 assignedRole = existingUsers[0].role || 'user';
             }
 
@@ -191,7 +187,28 @@
             localStorage.setItem('wishlist_user', currentUser);
             localStorage.setItem('wishlist_role', userRole);
 
+            document.getElementById('username-input').value = '';
             initApp();
+        }
+
+        // FUNZIONE DI LOGOUT COMPLETA E CORRETTA
+        function logout() {
+            localStorage.removeItem('wishlist_user');
+            localStorage.removeItem('wishlist_role');
+            
+            currentUser = null;
+            userRole = 'user';
+            
+            document.getElementById('admin-nav-btn').style.display = 'none';
+
+            // Chiudi app-container e mostra il form di login
+            document.getElementById('app-container').classList.remove('active');
+            
+            const pages = document.querySelectorAll('#app-container .page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('home').classList.add('active');
+
+            document.getElementById('login-page').classList.add('active');
         }
 
         async function initApp() {
@@ -201,6 +218,8 @@
 
             if (userRole === 'admin') {
                 document.getElementById('admin-nav-btn').style.display = 'block';
+            } else {
+                document.getElementById('admin-nav-btn').style.display = 'none';
             }
 
             await loadGiftsFromSupabase();
@@ -216,7 +235,7 @@
                 .order('created_at', { ascending: true });
 
             if (error) {
-                console.error('Errore durante il caricamento dei regali:', error);
+                console.error('Errore caricamento regali:', error);
                 return;
             }
 
@@ -226,7 +245,6 @@
             categoriesContainer.innerHTML = '';
             categoryPagesContainer.innerHTML = '';
 
-            // Raggruppa i regali per categoria
             const groupedGifts = {};
             gifts.forEach(gift => {
                 const catKey = (gift.category || 'altro').toLowerCase();
@@ -236,7 +254,6 @@
                 groupedGifts[catKey].push(gift);
             });
 
-            // Genera i pulsanti e le relative pagine
             Object.keys(groupedGifts).forEach(catKey => {
                 const icon = categoryIcons[catKey] || '🎁';
                 const color = groupedGifts[catKey][0]?.border_color || '#3b82f6';
@@ -312,7 +329,7 @@
                 .order('created_at', { ascending: true });
 
             if (error) {
-                console.error('Errore nel caricamento delle code:', error);
+                console.error('Errore caricamento code:', error);
                 return;
             }
 
@@ -396,7 +413,6 @@
         async function confirmPurchase(giftId) {
             if (!confirm("Sei sicuro di voler confermare l'acquisto? L'oggetto verrà rimosso dalla wishlist.")) return;
 
-            // Rimuove l'oggetto sia dalle code che dalla tabella gifts
             await supabaseClient.from('queues').delete().eq('gift_id', giftId);
             const { error } = await supabaseClient.from('gifts').delete().eq('id', giftId);
 
@@ -405,7 +421,6 @@
                 return;
             }
 
-            // Ricarica la vista
             await loadGiftsFromSupabase();
             loadQueues();
             alert('Acquisto confermato! L\'oggetto è stato rimosso dalla wishlist.');
