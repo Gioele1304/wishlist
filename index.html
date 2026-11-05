@@ -13,7 +13,7 @@
         .subtitle { text-align: center; color: #94a3b8; font-size: 13px; margin-bottom: 30px; letter-spacing: 0.5px; }
 
         /* Stile pulsanti categorie (Home) */
-        .cat-btn { background: #030712; padding: 18px; border-radius: 15px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #f1f5f9; font-weight: bold; font-size: 17px; border: 1px solid #3b82f6; box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1), 0 0 10px rgba(59, 130, 246, 0.1); cursor: pointer; transition: all 0.25s ease; }
+        .cat-btn { background: #030712; padding: 18px; border-radius: 15px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #f1f5f9; font-weight: bold; font-size: 17px; border: 1px solid #3b82f6; box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1), 0 0 10px rgba(59, 130, 246, 0.1); cursor: pointer; transition: all 0.25s ease; text-transform: capitalize; }
         .cat-btn:hover { transform: scale(1.03); border-color: #a855f7; box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.2), 0 0 20px rgba(168, 85, 247, 0.3); color: #fff; }
         .icon { color: #3b82f6; transition: all 0.25s ease; }
         .cat-btn:hover .icon { color: #a855f7; transform: translateX(4px); }
@@ -74,18 +74,13 @@
                 <button onclick="showPage('admin-panel')" class="action-btn primary" style="width: 100%;">⚙️ Apri Pannello Admin</button>
             </div>
 
+            <!-- HOME CON CATEGORIE DINAMICHE -->
             <div id="home" class="page active">
                 <h1>My Wishlist</h1>
                 <p class="subtitle">Seleziona una categoria per esplorare i regali</p>
-
-                <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('chitarra')"><span>🎸 Chitarra</span><span class="icon">➜</span></div>
-                <div class="cat-btn" style="border-color: #a855f7;" onclick="showPage('ape')"><span>🚘 Garage</span><span class="icon" style="color:#a855f7;">➜</span></div>
-                <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('costosi')"><span>👥 Regali di Gruppo</span><span class="icon" style="color:#6366f1;">➜</span></div>
-                <div class="cat-btn" style="border-color: #3b82f6;" onclick="showPage('musica')"><span>🎧 Musica / CD</span><span class="icon">➜</span></div>
-                <div class="cat-btn" style="border-color: #a855f7;" onclick="showPage('vinili')"><span>💿 Vinili</span><span class="icon" style="color:#a855f7;">➜</span></div>
-                <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('pesca')"><span>🦈 Pesca</span><span class="icon" style="color:#6366f1;">➜</span></div>
-                <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('progetti')"><span>💻 Progettini</span><span class="icon" style="color:#a855f7;">➜</span></div>
-                <div class="cat-btn" style="border-color: #6366f1;" onclick="showPage('altro')"><span>🤔 Altro</span><span class="icon" style="color:#a855f7;">➜</span></div>
+                <div id="categories-container">
+                    <!-- I pulsanti delle categorie verranno inseriti qui da Supabase -->
+                </div>
             </div>
 
             <!-- PANNELLO ADMIN -->
@@ -98,480 +93,33 @@
                 <div class="back-btn" onclick="showPage('home')">⬅ Torna alla Home</div>
             </div>
 
-            <!-- 🎸 CHITARRA -->
-            <div id="chitarra" class="page">
-                <h1>🎸 Chitarra</h1>
-                
-                <div class="wish-card" data-gift-id="chitarra_1" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Muta di Corde Ernie Ball</span><span class="desc">Super Slinky 9-42</span></div>
-                        <a href="https://www.amazon.it/Cordes-guitare-électrique-Ernie-Ball/dp/B0002M6CW6" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_1" onclick="joinQueue('chitarra_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_1" onclick="leaveQueue('chitarra_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_1" onclick="confirmPurchase('chitarra_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_2" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Plettri Dunlop Tortex</span><span class="desc">417P2.0 GATOR GRIP STANDARD 2.0MM, Confezione da 12 Plettri</span></div>
-                        <a href="https://www.amazon.it/dp/B0002D0CJY" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_2" onclick="joinQueue('chitarra_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_2" onclick="leaveQueue('chitarra_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_2" onclick="confirmPurchase('chitarra_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_3" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Avvolgicorde per Chitarra, Nero</span><span class="desc">Oggetto per essere più efficiente ad avvolgere le corde</span></div>
-                        <a href="https://www.amazon.it/DAddario-Avvolgicorde-PRO-WINDER-Taglia-corde-Estrattore/dp/B0002E1G5C" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_3">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_3" onclick="joinQueue('chitarra_3')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_3" onclick="leaveQueue('chitarra_3')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_3" onclick="confirmPurchase('chitarra_3')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_4" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Sistema Wireless Per Chitarra</span><span class="desc">Telefono Senza fili chitarra amplificatore</span></div>
-                        <a href="https://www.amazon.it/Trasmettitore-Ricevitore-Elettrica-Strumenti-Elettrici/dp/B0DWSJM55B" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_4">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_4" onclick="joinQueue('chitarra_4')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_4" onclick="leaveQueue('chitarra_4')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_4" onclick="confirmPurchase('chitarra_4')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_5" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Dunlop Crybaby GCB95</span><span class="desc">Pedale effetto per chitarra wah wah</span></div>
-                        <a href="https://www.thomann.it/dunlop_cry_baby_gcb95.htm" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_5">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_5" onclick="joinQueue('chitarra_5')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_5" onclick="leaveQueue('chitarra_5')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_5" onclick="confirmPurchase('chitarra_5')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_6" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Harley Benton GC 6 PR Vintage Tweed</span><span class="desc">Cavo per chitarra</span></div>
-                        <a href="https://www.thomann.it/harley_benton_gc_6_pr_vintage_tweed.htm" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_6">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_6" onclick="joinQueue('chitarra_6')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_6" onclick="leaveQueue('chitarra_6')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_6" onclick="confirmPurchase('chitarra_6')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_7" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Sommer cable SG3P 0050</span><span class="desc">Cavo per pedaliera effetti chitarra</span></div>
-                        <a href="https://www.thomann.it/sommer_cable_sg3p_0050.htm" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_7">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_7" onclick="joinQueue('chitarra_7')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_7" onclick="leaveQueue('chitarra_7')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_7" onclick="confirmPurchase('chitarra_7')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="chitarra_8" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Ibanez M300C</span><span class="desc">Custodia rigida per chitarra</span></div>
-                        <a href="https://www.thomann.it/ibanez_m300c.htm" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-chitarra_8">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-chitarra_8" onclick="joinQueue('chitarra_8')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-chitarra_8" onclick="leaveQueue('chitarra_8')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-chitarra_8" onclick="confirmPurchase('chitarra_8')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 🚘 GARAGE / APE -->
-            <div id="ape" class="page">
-                <h1>🚘 Garage</h1>
-                
-                <div class="wish-card" data-gift-id="ape_1" style="border-left-color: #a855f7;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Cassetta degli attrezzi</span><span class="desc">Cassetta degli attrezzi completa e VIOLA</span></div>
-                        <a href="https://amzn.eu/d/0fLrO9YQ" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-ape_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-ape_1" onclick="joinQueue('ape_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-ape_1" onclick="leaveQueue('ape_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-ape_1" onclick="confirmPurchase('ape_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="ape_2" style="border-left-color: #a855f7;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Gomme tassellate</span><span class="desc">Gomme tassellate per ape 50</span></div>
-                        <a href="https://www.teamthr.com/prodotto/gomme-tassellate-3-00-10/" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-ape_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-ape_2" onclick="joinQueue('ape_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-ape_2" onclick="leaveQueue('ape_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-ape_2" onclick="confirmPurchase('ape_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 👥 REGALI DI GRUPPO -->
-            <div id="costosi" class="page">
-                <h1>👥 Regali di Gruppo</h1>
-                
-                <div class="wish-card" data-gift-id="costosi_1" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Amplificatore Valvolare</span><span class="desc">Idea regalo di gruppo</span></div>
-                        <a href="https://www.strumentimusicali.net" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-costosi_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-costosi_1" onclick="joinQueue('costosi_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-costosi_1" onclick="leaveQueue('costosi_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-costosi_1" onclick="confirmPurchase('costosi_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="costosi_2" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Harley Benton MultiScale-8 QEB</span><span class="desc">Chitarra a 8 corde</span></div>
-                        <a href="https://www.thomann.it/harley_benton_multiscale_8_nt_qeb_dlx.htm" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-costosi_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-costosi_2" onclick="joinQueue('costosi_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-costosi_2" onclick="leaveQueue('costosi_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-costosi_2" onclick="confirmPurchase('costosi_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 🎧 MUSICA / CD -->
-            <div id="musica" class="page">
-                <h1>🎧 Musica / CD</h1>
-                
-                <div class="wish-card" data-gift-id="musica_1" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">CD Dookie (Green Day)</span><span class="desc">Edizione Standard CD audio</span></div>
-                        <a href="https://www.amazon.it" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-musica_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-musica_1" onclick="joinQueue('musica_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-musica_1" onclick="leaveQueue('musica_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-musica_1" onclick="confirmPurchase('musica_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="musica_2" style="border-left-color: #3b82f6;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Cavo per cuffie</span><span class="desc">Cavo per cuffie con twist lock e adattamento a jack grande</span></div>
-                        <a href="https://www.amazon.it/dp/B0FVYKTLFT" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-musica_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-musica_2" onclick="joinQueue('musica_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-musica_2" onclick="leaveQueue('musica_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-musica_2" onclick="confirmPurchase('musica_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 💿 VINILI -->
-            <div id="vinili" class="page">
-                <h1>💿 Vinili</h1>
-                
-                <script>
-                    const viniliList = [
-                        {title: "Too Fast For Love", desc: "Vinile motley crue", url: "https://www.amazon.it/Fast-Love-Remaster-Motley-Crue/dp/B09ZTH5QBC"},
-                        {title: "Rebel", desc: "Naska (Vinile)", url: "https://www.amazon.it/s?k=Naska+Rebel+vinile"},
-                        {title: "The Freak Show", desc: "Mötley Crüe (Vinile)", url: "https://www.amazon.it/s?k=Motley+Crue+The+Freak+Show+vinile"},
-                        {title: "Theatre Of Pain", desc: "Mötley Crüe (Vinile)", url: "https://www.amazon.it/s?k=Motley+Crue+Theatre+Of+Pain+vinile"},
-                        {title: "Dr. Feelgood", desc: "Mötley Crüe (Vinile)", url: "https://www.amazon.it/s?k=Motley+Crue+Dr.+Feelgood+vinile"},
-                        {title: "Shout At The Devil", desc: "Mötley Crüe (Vinile)", url: "https://www.amazon.it/s?k=Motley+Crue+Shout+At+The+Devil+vinile"},
-                        {title: "Girls, Girls, Girls", desc: "Mötley Crüe (Vinile)", url: "https://www.amazon.it/s?k=Motley+Crue+Girls+Girls+Girls+vinile"},
-                        {title: "Senza Paura Delle Rovine", desc: "Vintage Violence (Vinile)", url: "https://www.amazon.it/s?k=Vintage+Violence+Senza+Paura+Delle+Rovine+vinile"},
-                        {title: "Mono", desc: "Vintage Violence (Vinile)", url: "https://www.amazon.it/s?k=Vintage+Violence+Mono+vinile"},
-                        {title: "21st Century Breakdown", desc: "Green Day (Vinile)", url: "https://www.amazon.it/s?k=Green+Day+21st+Century+Breakdown+vinile"},
-                        {title: "Dookie", desc: "Green Day (Vinile)", url: "https://www.amazon.it/s?k=Green+Day+Dookie+vinile"},
-                        {title: "American Idiot", desc: "Green Day (Vinile)", url: "https://www.amazon.it/s?k=Green+Day+American+Idiot+vinile"},
-                        {title: "Changes", desc: "Vanilla Sky (Vinile)", url: "https://www.amazon.it/s?k=Vanilla+Sky+Changes+vinile"},
-                        {title: "Fragile (Italian Version)", desc: "Vanilla Sky (Vinile)", url: "https://www.amazon.it/s?k=Vanilla+Sky+Fragile+vinile"},
-                        {title: "Toxicity", desc: "System Of A Down (Vinile)", url: "https://www.amazon.it/s?k=System+Of+A+Down+Toxicity+vinile"},
-                        {title: "Steal This Album!", desc: "System Of A Down (Vinile)", url: "https://www.amazon.it/s?k=System+Of+A+Down+Steal+This+Album+vinile"},
-                        {title: "Mezmerize", desc: "System Of A Down (Vinile)", url: "https://www.amazon.it/s?k=System+Of+A+Down+Mezmerize+vinile"},
-                        {title: "Korn", desc: "Korn (Vinile)", url: "https://www.amazon.it/s?k=Korn+Korn+vinile"},
-                        {title: "Life Is Peachy", desc: "Korn (Vinile)", url: "https://www.amazon.it/s?k=Korn+Life+Is+Peachy+vinile"},
-                        {title: "Follow The Leader", desc: "Korn (Vinile)", url: "https://www.amazon.it/s?k=Korn+Follow+The+Leader+vinile"},
-                        {title: "See You On The Other Side", desc: "Korn (Vinile)", url: "https://www.amazon.it/s?k=Korn+See+You+On+The+Other+Side+vinile"},
-                        {title: "Delirium", desc: "Lacuna Coil (Vinile)", url: "https://www.amazon.it/s?k=Lacuna+Coil+Delirium+vinile"},
-                        {title: "Iowa", desc: "Slipknot (Vinile)", url: "https://www.amazon.it/s?k=Slipknot+Iowa+vinile"},
-                        {title: "We Are Not Your Kind", desc: "Slipknot (Vinile)", url: "https://www.amazon.it/s?k=Slipknot+We+Are+Not+Your+Kind+vinile"},
-                        {title: "All Hope Is Gone", desc: "Slipknot (Vinile)", url: "https://www.amazon.it/s?k=Slipknot+All+Hope+Is+Gone+vinile"},
-                        {title: "Vol. 3", desc: "Slipknot (Vinile)", url: "https://www.amazon.it/s?k=Slipknot+Vol.+3+vinile"},
-                        {title: "Slipknot", desc: "Slipknot (Vinile)", url: "https://www.amazon.it/s?k=Slipknot+Slipknot+vinile"},
-                        {title: "No More Tears", desc: "Ozzy Osbourne (Vinile)", url: "https://www.amazon.it/s?k=Ozzy+Osbourne+No+More+Tears+vinile"},
-                        {title: "Blizzard Of Ozz", desc: "Ozzy Osbourne (Vinile)", url: "https://www.amazon.it/s?k=Ozzy+Osbourne+Blizzard+Of+Ozz+vinile"},
-                        {title: "United Abominations", desc: "Megadeth (Vinile)", url: "https://www.amazon.it/s?k=Megadeth+United+Abominations+vinile"},
-                        {title: "Fear Of The Dark", desc: "Iron Maiden (Vinile)", url: "https://www.amazon.it/s?k=Iron+Maiden+Fear+Of+The+Dark+vinile"},
-                        {title: "The Number Of The Beast", desc: "Iron Maiden (Vinile)", url: "https://www.amazon.it/s?k=Iron+Maiden+The+Number+Of+The+Beast+vinile"},
-                        {title: "Powerslave", desc: "Iron Maiden (Vinile)", url: "https://www.amazon.it/s?k=Iron+Maiden+Powerslave+vinile"},
-                        {title: "Favourite Worst Nightmare", desc: "Arctic Monkeys (Vinile)", url: "https://www.amazon.it/s?k=Arctic+Monkeys+Favourite+Worst+Nightmare+vinile"},
-                        {title: "TONYPITONY", desc: "Tony Pitony (Vinile)", url: "https://www.amazon.it/s?k=Tony+Pitony+TONYPITONY+vinile"},
-                        {title: "Tomb Of The Mutilated", desc: "Cannibal Corpse (Vinile)", url: "https://www.amazon.it/s?k=Cannibal+Corpse+Tomb+Of+The+Mutilated+vinile"},
-                        {title: "Blood Sugar Sex Magik", desc: "Red Hot Chili Peppers (Vinile)", url: "https://www.amazon.it/s?k=Red+Hot+Chili+Peppers+Blood+Sugar+Sex+Magik+vinile"},
-                        {title: "Californication", desc: "Red Hot Chili Peppers (Vinile)", url: "https://www.amazon.it/s?k=Red+Hot+Chili+Peppers+Californication+vinile"},
-                        {title: "From Zero", desc: "Linkin Park (Vinile)", url: "https://www.amazon.it/s?k=Linkin+Park+From+Zero+vinile"},
-                        {title: "One More Light", desc: "Linkin Park (Vinile)", url: "https://www.amazon.it/s?k=Linkin+Park+One+More+Light+vinile"},
-                        {title: "Hybrid Theory", desc: "Linkin Park (Vinile)", url: "https://www.amazon.it/s?k=Linkin+Park+Hybrid+Theory+vinile"},
-                        {title: "Meteora", desc: "Linkin Park (Vinile)", url: "https://www.amazon.it/s?k=Linkin+Park+Meteora+vinile"},
-                        {title: "Minutes To Midnight", desc: "Linkin Park (Vinile)", url: "https://www.amazon.it/s?k=Linkin+Park+Minutes+To+Midnight+vinile"},
-                        {title: "Money For Nothing", desc: "Dire Straits (Vinile)", url: "https://www.amazon.it/s?k=Dire+Straits+Money+For+Nothing+vinile"},
-                        {title: "Tainted Love", desc: "Sepultura (Vinile)", url: "https://www.amazon.it/s?k=Sepultura+Tainted+Love+vinile"},
-                        {title: "La Domenica Mattina", desc: "Matrioska (Vinile)", url: "https://www.amazon.it/s?k=Matrioska+La+Domenica+Mattina+vinile"},
-                        {title: "Kostolom", desc: "Slaughter To Prevail (Vinile)", url: "https://www.amazon.it/s?k=Slaughter+To+Prevail+Kostolom+vinile"},
-                        {title: "The Black Parade", desc: "My Chemical Romance (Vinile)", url: "https://www.amazon.it/s?k=My+Chemical+Romance+The+Black+Parade+vinile"},
-                        {title: "Three Cheers For Sweet Revenge", desc: "My Chemical Romance (Vinile)", url: "https://www.amazon.it/s?k=My+Chemical+Romance+Three+Cheers+For+Sweet+Revenge+vinile"},
-                        {title: "Fallen", desc: "Evanescence (Vinile)", url: "https://www.amazon.it/s?k=Evanescence+Fallen+vinile"},
-                        {title: "Demon Days", desc: "Gorillaz (Vinile)", url: "https://www.amazon.it/s?k=Gorillaz+Demon+Days+vinile"},
-                        {title: "The Colour And The Shape", desc: "Foo Fighters (Vinile)", url: "https://www.amazon.it/s?k=Foo+Fighters+The+Colour+And+The+Shape+vinile"},
-                        {title: "Sono Solo Canzonette", desc: "Edoardo Bennato (Vinile)", url: "https://www.amazon.it/s?k=Edoardo+Bennato+Sono+Solo+Canzonette+vinile"},
-                        {title: "Uffa' Uffa!", desc: "Edoardo Bennato (Vinile)", url: "https://www.amazon.it/s?k=Edoardo+Bennato+Uffa+Uffa+vinile"},
-                        {title: "Ti Auguro Tante Belle Cose", desc: "Bad Frog (Vinile)", url: "https://www.amazon.it/s?k=Bad+Frog+Ti+Auguro+Tante+Belle+Cose+vinile"},
-                        {title: "For I Am Death", desc: "The Pretty Reckless (Vinile)", url: "https://www.amazon.it/s?k=The+Pretty+Reckless+For+I+Am+Death+vinile"},
-                        {title: "The Sickness", desc: "Disturbed (Vinile)", url: "https://www.amazon.it/s?k=Disturbed+The+Sickness+vinile"},
-                        {title: "Sto Nella Sad Deluxe", desc: "La Sad (Vinile)", url: "https://www.amazon.it/s?k=La+Sad+Sto+Nella+Sad+Deluxe+vinile"},
-                        {title: "Odio La Sad", desc: "La Sad (Vinile)", url: "https://www.amazon.it/s?k=La+Sad+Odio+La+Sad+vinile"},
-                        {title: "Seven Inches Of Satanic Panic", desc: "Ghost (Vinile)", url: "https://www.amazon.it/s?k=Ghost+Seven+Inches+Of+Satanic+Panic+vinile"},
-                        {title: "Raggasonico", desc: "Babaman (Vinile)", url: "https://www.amazon.it/s?k=Babaman+Raggasonico+vinile"},
-                        {title: "Blackout", desc: "From Ashes To New (Vinile)", url: "https://www.amazon.it/s?k=From+Ashes+To+New+Blackout+vinile"},
-                        {title: "Life Is Killing Me", desc: "Type O Negative (Vinile)", url: "https://www.amazon.it/s?k=Type+O+Negative+Life+Is+Killing+Me+vinile"},
-                        {title: "October Rust", desc: "Type O Negative (Vinile)", url: "https://www.amazon.it/s?k=Type+O+Negative+October+Rust+vinile"},
-                        {title: "Significant Other", desc: "Limp Bizkit (Vinile)", url: "https://www.amazon.it/s?k=Limp+Bizkit+Significant+Other+vinile"},
-                        {title: "The Rise And Fall Of Ziggy Stardust", desc: "David Bowie (Vinile)", url: "https://www.amazon.it/s?k=David+Bowie+The+Rise+And+Fall+Of+Ziggy+Stardust+vinile"},
-                        {title: "Nevermind", desc: "Nirvana (Vinile)", url: "https://www.amazon.it/s?k=Nirvana+Nevermind+vinile"},
-                        {title: "In Utero", desc: "Nirvana (Vinile)", url: "https://www.amazon.it/s?k=Nirvana+In+Utero+vinile"},
-                        {title: "Cigarettes After Sex", desc: "Cigarettes After Sex (Vinile)", url: "https://www.amazon.it/s?k=Cigarettes+After+Sex+Cigarettes+After+Sex+vinile"},
-                        {title: "Cowboys From Hell", desc: "Pantera (Vinile)", url: "https://www.amazon.it/s?k=Pantera+Cowboys+From+Hell+vinile"},
-                        {title: "Aftermath", desc: "The Rolling Stones (Vinile)", url: "https://www.amazon.it/s?k=The+Rolling+Stones+Aftermath+vinile"},
-                        {title: "The Singles Plus", desc: "The Animals (Vinile)", url: "https://www.amazon.it/s?k=The+Animals+The+Singles+Plus+vinile"},
-                        {title: "Infest", desc: "Papa Roach (Vinile)", url: "https://www.amazon.it/s?k=Papa+Roach+Infest+vinile"},
-                        {title: "Scum", desc: "Napalm Death (Vinile)", url: "https://www.amazon.it/s?k=Napalm+Death+Scum+vinile"},
-                        {title: "Tutto è Possibile", desc: "Finley (Vinile)", url: "https://www.amazon.it/s?k=Finley+Tutto+e+Possibile+vinile"},
-                        {title: "Pogo Mixtape Vol. 1", desc: "Finley (Vinile)", url: "https://www.amazon.it/s?k=Finley+Pogo+Mixtape+Vol.+1+vinile"},
-                        {title: "Graveyard Shift", desc: "Motionless In White (Vinile)", url: "https://www.amazon.it/s?k=Motionless+In+White+Graveyard+Shift+vinile"},
-                        {title: "That's The Spirit", desc: "Bring Me The Horizon (Vinile)", url: "https://www.amazon.it/s?k=Bring+Me+The+Horizon+Thats+The+Spirit+vinile"},
-                        {title: "Sempiternal", desc: "Bring Me The Horizon (Vinile)", url: "https://www.amazon.it/s?k=Bring+Me+The+Horizon+Sempiternal+vinile"},
-                        {title: "Wanted", desc: "Bambole Di Pezza (Vinile)", url: "https://www.amazon.it/s?k=Bambole+Di+Pezza+Wanted+vinile"},
-                        {title: "Dirty", desc: "Bambole Di Pezza (Vinile)", url: "https://www.amazon.it/s?k=Bambole+Di+Pezza+Dirty+vinile"},
-                        {title: "Silver Side Up", desc: "Nickelback (Vinile)", url: "https://www.amazon.it/s?k=Nickelback+Silver+Side+Up+vinile"},
-                        {title: "The Long Road", desc: "Nickelback (Vinile)", url: "https://www.amazon.it/s?k=Nickelback+The+Long+Road+vinile"},
-                        {title: "Here And Now", desc: "Nickelback (Vinile)", url: "https://www.amazon.it/s?k=Nickelback+Here+And+Now+vinile"},
-                        {title: "No Fixed Address", desc: "Nickelback (Vinile)", url: "https://www.amazon.it/s?k=Nickelback+No+Fixed+Address+vinile"},
-                        {title: "Use Your Illusion II", desc: "Guns N' Roses (Vinile)", url: "https://www.amazon.it/s?k=Guns+N+Roses+Use+Your+Illusion+II+vinile"},
-                        {title: "Appetite For Destruction", desc: "Guns N' Roses (Vinile)", url: "https://www.amazon.it/s?k=Guns+N+Roses+Appetite+For+Destruction+vinile"},
-                        {title: "BFMV (Deluxe)", desc: "Bullet For My Valentine (Vinile)", url: "https://www.amazon.it/s?k=Bullet+For+My+Valentine+BFMV+Deluxe+vinile"},
-                        {title: "Undici", desc: "Peter Punk (Vinile)", url: "https://www.amazon.it/s?k=Peter+Punk+Undici+vinile"},
-                        {title: "Sodalit Dol Better", desc: "Nanowar Of Steel (Vinile)", url: "https://www.amazon.it/s?k=Nanowar+Of+Steel+Sodalit+Dol+Better+vinile"},
-                        {title: "Jaws Of Life", desc: "Pierce The Veil (Vinile)", url: "https://www.amazon.it/s?k=Pierce+The+Veil+Jaws+Of+Life+vinile"},
-                        {title: "Collide With The Sky", desc: "Pierce The Veil (Vinile)", url: "https://www.amazon.it/s?k=Pierce+The+Veil+Collide+With+The+Sky+vinile"}
-                    ];
-
-                    viniliList.forEach((v, index) => {
-                        const giftId = `vinile_${index + 1}`;
-                        document.write(`
-                            <div class="wish-card" data-gift-id="${giftId}" style="border-left-color: #a855f7;">
-                                <div class="card-top">
-                                    <div class="info"><span class="title">${v.title}</span><span class="desc">${v.desc}</span></div>
-                                    <a href="${v.url}" target="_blank" class="btn">Vedi ➜</a>
-                                </div>
-                                <div class="queue-section">
-                                    <div class="queue-info" id="q-info-${giftId}">Stato coda: Nessun utente in coda</div>
-                                    <div class="queue-actions">
-                                        <button class="action-btn primary" id="btn-join-${giftId}" onclick="joinQueue('${giftId}')">Mettiti in coda</button>
-                                        <button class="action-btn" id="btn-leave-${giftId}" onclick="leaveQueue('${giftId}')" style="display:none;">Lascia coda</button>
-                                        <button class="action-btn success" id="btn-buy-${giftId}" onclick="confirmPurchase('${giftId}')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `);
-                    });
-                </script>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 🦈 PESCA -->
-            <div id="pesca" class="page">
-                <h1>🦈 Pesca</h1>
-                
-                <div class="wish-card" data-gift-id="pesca_1" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Esca da pesca</span><span class="desc">Esca simulazione di pesce</span></div>
-                        <a href="https://www.rapala.it/eu_it/super-shadow-rap-glide-uv-hook" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-pesca_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-pesca_1" onclick="joinQueue('pesca_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-pesca_1" onclick="leaveQueue('pesca_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-pesca_1" onclick="confirmPurchase('pesca_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 💻 PROGETTINI -->
-            <div id="progetti" class="page">
-                <h1>💻 Progettini</h1>
-                
-                <div class="wish-card" data-gift-id="progetti_1" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Programmer's rubber duck</span><span class="desc">Importante aiuto e simpatico da programmazione</span></div>
-                        <a href="https://www.etsy.com/it/listing/1494931495/paperella-di-gomma-per-il-debug-regalo" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-progetti_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-progetti_1" onclick="joinQueue('progetti_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-progetti_1" onclick="leaveQueue('progetti_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-progetti_1" onclick="confirmPurchase('progetti_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="progetti_2" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Raspberry pi 4</span><span class="desc">Micro processore</span></div>
-                        <a href="https://www.melopero.com/shop/boards/pi4/raspberry-pi-4-3gb-ram/?src=raspberrypi" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-progetti_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-progetti_2" onclick="joinQueue('progetti_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-progetti_2" onclick="leaveQueue('progetti_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-progetti_2" onclick="confirmPurchase('progetti_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
-            <!-- 🤔 ALTRO -->
-            <div id="altro" class="page">
-                <h1>🤔 Altro</h1>
-                
-                <div class="wish-card" data-gift-id="altro_1" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">ERKUOO dilatatore da 25mm</span><span class="desc">dilatatore bello in legno di ebano</span></div>
-                        <a href="https://www.amazon.it/ERKUOO-dilatatori-doppia-svasatura-arenaria/dp/B0BRSKJB7Z" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-altro_1">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-altro_1" onclick="joinQueue('altro_1')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-altro_1" onclick="leaveQueue('altro_1')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-altro_1" onclick="confirmPurchase('altro_1')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wish-card" data-gift-id="altro_2" style="border-left-color: #6366f1;">
-                    <div class="card-top">
-                        <div class="info"><span class="title">Soldi</span><span class="desc">Fanno sempre comodo</span></div>
-                        <a href="https://www.google.com" target="_blank" class="btn">Vedi ➜</a>
-                    </div>
-                    <div class="queue-section">
-                        <div class="queue-info" id="q-info-altro_2">Stato coda: Nessun utente in coda</div>
-                        <div class="queue-actions">
-                            <button class="action-btn primary" id="btn-join-altro_2" onclick="joinQueue('altro_2')">Mettiti in coda</button>
-                            <button class="action-btn" id="btn-leave-altro_2" onclick="leaveQueue('altro_2')" style="display:none;">Lascia coda</button>
-                            <button class="action-btn success" id="btn-buy-altro_2" onclick="confirmPurchase('altro_2')" style="display:none;">Conferma Acquisto & Rimuovi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>
-            </div>
-
+            <!-- CONTENITORE DINAMICO PER LE SEZIONI DELLE CATEGORIE -->
+            <div id="dynamic-category-pages"></div>
         </div>
     </div>
 
     <script>
         // CONFIGURAZIONE SUPABASE
         const SUPABASE_URL = 'https://zvohvfxmdqfsfnevqips.supabase.co';
-        // Incolla qui sotto la tua anon key presa da Supabase (Project Settings > API)
         const SUPABASE_ANON_KEY = 'sb_publishable_zjFI466Teft8rdtRNDNqOg_yMKX0UTn';
         
-        let supabaseClient = null;
-        if (SUPABASE_ANON_KEY !== 'INSERISCI_QUI_LA_TUA_SUPABASE_ANON_KEY') {
-            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let currentUser = localStorage.getItem('wishlist_user') || null;
         let userRole = localStorage.getItem('wishlist_role') || 'user';
+
+        // Mappa delle icone per le categorie note (con fallback a 🎁)
+        const categoryIcons = {
+            'chitarra': '🎸',
+            'ape': '🚘',
+            'garage': '🚘',
+            'costosi': '👥',
+            'musica': '🎧',
+            'vinili': '💿',
+            'pesca': '🦈',
+            'progetti': '💻',
+            'altro': '🤔'
+        };
 
         document.addEventListener("DOMContentLoaded", () => {
             if (currentUser) {
@@ -602,18 +150,100 @@
             document.getElementById('login-page').classList.add('active');
         }
 
-        function initApp() {
+        async function initApp() {
             document.getElementById('login-page').classList.remove('active');
             document.getElementById('app-container').classList.add('active');
             document.getElementById('current-user-display').innerText = currentUser;
 
             if (userRole === 'admin') {
                 document.getElementById('admin-nav-btn').style.display = 'block';
-                loadAdminData();
             }
 
+            await loadGiftsFromSupabase();
             loadQueues();
             setupRealtimeSubscription();
+        }
+
+        // CARICAMENTO DINAMICO DEI REGALI E DELLE CATEGORIE DA SUPABASE
+        async function loadGiftsFromSupabase() {
+            const { data: gifts, error } = await supabaseClient
+                .from('gifts')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error('Errore durante il caricamento dei regali:', error);
+                return;
+            }
+
+            const categoriesContainer = document.getElementById('categories-container');
+            const categoryPagesContainer = document.getElementById('dynamic-category-pages');
+
+            categoriesContainer.innerHTML = '';
+            categoryPagesContainer.innerHTML = '';
+
+            // Raggruppa i regali per categoria
+            const groupedGifts = {};
+            gifts.forEach(gift => {
+                const catKey = (gift.category || 'altro').toLowerCase();
+                if (!groupedGifts[catKey]) {
+                    groupedGifts[catKey] = [];
+                }
+                groupedGifts[catKey].push(gift);
+            });
+
+            // Genera i pulsanti e le relative pagine
+            Object.keys(groupedGifts).forEach(catKey => {
+                const icon = categoryIcons[catKey] || '🎁';
+                const color = groupedGifts[catKey][0]?.border_color || '#3b82f6';
+                
+                // 1. Pulsante in Home
+                const btn = document.createElement('div');
+                btn.className = 'cat-btn';
+                btn.style.borderColor = color;
+                btn.onclick = () => showPage(`cat-page-${catKey}`);
+                btn.innerHTML = `<span>${icon} ${catKey}</span><span class="icon">➜</span>`;
+                categoriesContainer.appendChild(btn);
+
+                // 2. Pagina della Categoria
+                const page = document.createElement('div');
+                page.id = `cat-page-${catKey}`;
+                page.className = 'page';
+                
+                let giftsHTML = `<h1>${icon} ${catKey.toUpperCase()}</h1>`;
+                
+                groupedGifts[catKey].forEach(gift => {
+                    const giftId = gift.id;
+                    const title = gift.title;
+                    const desc = gift.description || '';
+                    const url = gift.url || '#';
+                    const borderColor = gift.border_color || '#3b82f6';
+
+                    giftsHTML += `
+                        <div class="wish-card" data-gift-id="${giftId}" style="border-left-color: ${borderColor};">
+                            <div class="card-top">
+                                <div class="info">
+                                    <span class="title">${title}</span>
+                                    ${desc ? `<span class="desc">${desc}</span>` : ''}
+                                </div>
+                                ${url && url !== '#' ? `<a href="${url}" target="_blank" class="btn">Vedi ➜</a>` : ''}
+                            </div>
+                            <div class="queue-section">
+                                <div class="queue-info" id="q-info-${giftId}">Stato coda: Nessun utente in coda</div>
+                                <div class="queue-actions">
+                                    <button class="action-btn primary" id="btn-join-${giftId}" onclick="joinQueue('${giftId}')">Mettiti in coda</button>
+                                    <button class="action-btn" id="btn-leave-${giftId}" onclick="leaveQueue('${giftId}')" style="display:none;">Lascia coda</button>
+                                    <button class="action-btn success" id="btn-buy-${giftId}" onclick="confirmPurchase('${giftId}')" style="display:none;">Conferma Acquisto & Rimuovi</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                giftsHTML += `<div class="back-btn" onclick="showPage('home')">⬅ Torna alle Categorie</div>`;
+                page.innerHTML = giftsHTML;
+                categoryPagesContainer.appendChild(page);
+            });
         }
 
         function showPage(pageId) {
@@ -632,8 +262,6 @@
         }
 
         async function loadQueues() {
-            if (!supabaseClient) return;
-
             const { data, error } = await supabaseClient
                 .from('queues')
                 .select('*')
@@ -696,11 +324,6 @@
         }
 
         async function joinQueue(giftId) {
-            if (!supabaseClient) {
-                alert('Configura prima la chiave anon di Supabase nello script!');
-                return;
-            }
-
             const { error } = await supabaseClient
                 .from('queues')
                 .insert([{ gift_id: giftId, username: currentUser }]);
@@ -713,8 +336,6 @@
         }
 
         async function leaveQueue(giftId) {
-            if (!supabaseClient) return;
-
             const { error } = await supabaseClient
                 .from('queues')
                 .delete()
@@ -729,32 +350,25 @@
         }
 
         async function confirmPurchase(giftId) {
-            if (!supabaseClient) return;
-            
             if (!confirm("Sei sicuro di voler confermare l'acquisto? L'oggetto verrà rimosso dalla wishlist.")) return;
 
-            const { error: queueError } = await supabaseClient
-                .from('queues')
-                .delete()
-                .eq('gift_id', giftId);
+            // Rimuove l'oggetto sia dalle code che dalla tabella gifts
+            await supabaseClient.from('queues').delete().eq('gift_id', giftId);
+            const { error } = await supabaseClient.from('gifts').delete().eq('id', giftId);
 
-            if (queueError) {
-                alert('Errore durante la pulizia della coda.');
+            if (error) {
+                alert('Errore durante la rimozione del regalo.');
                 return;
             }
 
-            const card = document.querySelector(`[data-gift-id="${giftId}"]`);
-            if (card) {
-                card.style.transition = "all 0.5s ease";
-                card.style.opacity = "0";
-                setTimeout(() => card.remove(), 500);
-            }
-
-            alert('Acquisto confermato! L\'oggetto è stato rimosso.');
+            // Ricarica la vista
+            await loadGiftsFromSupabase();
+            loadQueues();
+            alert('Acquisto confermato! L\'oggetto è stato rimosso dalla wishlist.');
         }
 
         async function loadAdminData() {
-            if (!supabaseClient || userRole !== 'admin') return;
+            if (userRole !== 'admin') return;
 
             const adminContent = document.getElementById('admin-content');
             adminContent.innerHTML = "Caricamento dati globali...";
@@ -783,15 +397,15 @@
         }
 
         function setupRealtimeSubscription() {
-            if (!supabaseClient) return;
-
             supabaseClient
-                .channel('public:queues')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'queues' }, payload => {
+                .channel('public:wishlist_realtime')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'queues' }, () => {
                     loadQueues();
-                    if (userRole === 'admin') {
-                        loadAdminData();
-                    }
+                    if (userRole === 'admin') loadAdminData();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'gifts' }, async () => {
+                    await loadGiftsFromSupabase();
+                    loadQueues();
                 })
                 .subscribe();
         }
