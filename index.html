@@ -127,27 +127,61 @@
             }
         });
 
-        function handleLogin() {
+// Funzione di Login aggiornata con controllo sulla tabella "users"
+        async function handleLogin() {
             const input = document.getElementById('username-input').value.trim();
             if (!input) {
                 alert('Inserisci un nome valido!');
                 return;
             }
-            currentUser = input;
-            userRole = (currentUser.toLowerCase() === 'admin') ? 'admin' : 'user';
+            
+            const username = input;
+
+            // 1. Controlla se l'utente esiste già nella tabella 'users' di Supabase
+            const { data: existingUsers, error } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('username', username)
+                .limit(1);
+
+            if (error) {
+                console.error('Errore durante la verifica dell\'utente:', error);
+                alert('Errore di connessione con il database.');
+                return;
+            }
+
+            // 2. Se l'utente non esiste, chiedi conferma per crearlo
+            if (!existingUsers || existingUsers.length === 0) {
+                const creaNuovo = confirm(`L'utente "${username}" non esiste nel database. Vuoi creare un nuovo utente?`);
+                if (!creaNuovo) {
+                    return; // Annulla il login
+                }
+
+                // Inserisce il nuovo utente nella tabella 'users'
+                const { error: insertError } = await supabaseClient
+                    .from('users')
+                    .insert([{ username: username, role: (username.toLowerCase() === 'admin' ? 'admin' : 'user') }]);
+
+                if (insertError) {
+                    alert('Errore nella creazione del nuovo utente: ' + insertError.message);
+                    return;
+                }
+            }
+
+            // 3. Recupera il ruolo aggiornato dal database
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('role')
+                .eq('username', username)
+                .single();
+
+            currentUser = username;
+            userRole = userData ? userData.role : ((username.toLowerCase() === 'admin') ? 'admin' : 'user');
 
             localStorage.setItem('wishlist_user', currentUser);
             localStorage.setItem('wishlist_role', userRole);
 
             initApp();
-        }
-
-        function logout() {
-            localStorage.removeItem('wishlist_user');
-            localStorage.removeItem('wishlist_role');
-            currentUser = null;
-            document.getElementById('app-container').classList.remove('active');
-            document.getElementById('login-page').classList.add('active');
         }
 
         async function initApp() {
